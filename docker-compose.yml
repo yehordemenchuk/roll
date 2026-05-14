@@ -1,5 +1,9 @@
-# Spustenie: z koreňa „Cube Roll“: docker compose up --build
-# Na serveri nastavte POSTGRES_PASSWORD a JWT_SECRET (dlhý náhodný reťazec).
+# Spustenie z koreňa „Cube Roll“: docker compose up --build
+#
+# Slabý server (OOM pri paralelnej zostave): docker compose build --no-parallel
+# alebo po jednom: docker compose build backend && docker compose build frontend
+#
+# Premenovaná služba backendu (napr. roll-backend): vo fronte nastavte BACKEND_HOST.
 
 services:
   db:
@@ -48,8 +52,9 @@ services:
     build:
       context: ./cube-roll-frontend
       args:
-        # Prázdne = relatívna cesta /api/v1 (nginx nižšie proxy na backend)
         VITE_API_BASE_URL: ''
+    environment:
+      BACKEND_HOST: backend
     depends_on:
       - backend
     ports:
