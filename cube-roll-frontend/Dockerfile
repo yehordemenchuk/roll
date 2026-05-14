@@ -5,8 +5,7 @@ WORKDIR /app
 ENV NODE_OPTIONS=--max-old-space-size=3072
 
 COPY package.json package-lock.json* ./
-# npm ci padá pri nezhode locku s package.json; pre Docker build stačí npm install
-RUN npm install
+RUN npm ci
 
 COPY . .
 ARG VITE_API_BASE_URL=
